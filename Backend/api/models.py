@@ -22,6 +22,9 @@ class Profil(models.Model):
     telephone = models.IntegerField(null=True, blank=True)
     departement = models.CharField(max_length=100, choices=DEPARTEMENTS)
 
+    def __str__(self):
+        return self.user.username
+
 class Demande(models.Model):
 
     objet = models.CharField(max_length=100)
@@ -35,7 +38,7 @@ class Demande(models.Model):
     validation_hierarchique = models.BooleanField(default=False)
     validation_admin = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now_add=True)
-    date_expiration = models.DateTimeField(auto_now=True, null=True, blank=True)
+    date_expiration = models.DateTimeField(null=True, blank=True)
     protocoles = models.ManyToManyField(Protocole)
     applications = models.ManyToManyField(Application)
 

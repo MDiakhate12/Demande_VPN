@@ -1,31 +1,26 @@
-from django.shortcuts import render
-from rest_framework.generics import CreateAPIView, RetrieveUpdateAPIView
+from django.shortcuts import render, get_object_or_404, redirect
+from rest_framework.generics import ListAPIView
 from api.serializers import DemandeSerializer, ValidationDemandeSerializer
-from api.models import Demande
+from api.models import *
 from rest_framework.response import Response
 from .constants import STATUS
 from rest_framework import viewsets
-from django.shortcuts import redirect
+from django.contrib.auth.models import User
 
 class DemandeViewSet(viewsets.ModelViewSet):
     queryset = Demande.objects.all()
     serializer_class = DemandeSerializer
 
-class ValidationDemandeRetrieveUpdateView(RetrieveUpdateAPIView):
-    queryset = Demande.objects.all()
-    serializer_class = ValidationDemandeSerializer
-    lookup_field = 'id'
+    # Petite modification pour affecter la valeur du demandeur, 
+    # du validateur de la mise à jour du status
 
-    def put(self, request, id, *args, **kwargs):
-        demande = Demande.objects.get(pk=id)
-
-        if(demande.validation_hierarchique == False):
-            demande.validation_hierarchique = True
-        else:
-            demande.validation_securite = True
-
-        demande.save()
-        return super().put(request, *args, **kwargs)
+    def perform_create(self, serializer):
+        demande = serializer.validated_data
+        user = serializer.context['request'].user
+        demande['demandeur'] = user
+        demande['validateur_hierarchique'] = user.profil.superieur
+        demande['status_demande'] = STATUS[2][1]
+        return super().perform_create(serializer)
 
 def rejeter(request, id):
     demande = Demande.objects.get(pk=id)
@@ -44,3 +39,12 @@ def valider(request, id):
     demande.save()
 
     return redirect('/')
+
+
+class DemandeCollaborateursView(ListAPIView):
+    serializer_class = DemandeSerializer
+
+    def get_queryset(self):
+        username = self.kwargs['username']
+        demandes = Demande.objects.filter(validateur_hierarchique__profil__superieur__username=username)
+        return demandes

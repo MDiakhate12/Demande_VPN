@@ -23,7 +23,8 @@ router.register('demandes', views.DemandeViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-
     path('demandes/rejeter/<int:id>', views.rejeter, name='rejeter-demande'),
     path('demandes/valider/<int:id>', views.valider, name='valider-demande'),    
+    path('demandes/validateur/<str:username>/', views.DemandeCollaborateursView.as_view(), name='validateur-demandes'),
+
 ]

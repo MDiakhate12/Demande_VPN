@@ -25,7 +25,6 @@ class DemandeSerializer(serializers.ModelSerializer):
             'validation_admin'
         )
 
-
 class ValidationDemandeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
