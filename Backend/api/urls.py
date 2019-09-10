@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from . import views
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register('demandes', views.DemandeViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('api.urls'))
+    path('', include(router.urls)),
+
+    path('demandes/rejeter/<int:id>', views.rejeter, name='rejeter-demande'),
+    path('demandes/valider/<int:id>', views.valider, name='valider-demande'),    
 ]

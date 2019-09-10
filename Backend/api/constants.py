@@ -9,18 +9,6 @@ DEPARTEMENTS = (
     ('a2i', 'A2I'),
 )
 
-SERVICE = (
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-    ('',''),
-)
 
 STATUS = (
     ('accepte', 'ACCEPTE'),
@@ -28,3 +16,9 @@ STATUS = (
     ('en_attente', 'EN ATTENTE'),
 )
 
+PROTOCOLES = (
+    ('http', 'HTTP'),
+    ('https', 'HTPPS'),
+    ('tcp', 'TCP'),
+    ('ip', 'IP')
+)
