@@ -25,25 +25,21 @@ router.register('users', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 
-    path('demandes/en-attente/',
-         views.DemandesEnAttente.as_view(), name='demandes-en-attente'),
-
-    path('demandes/en-attente/hierarchie/<str:username>/',
-         views.DemandesCollaborateurs.as_view(), name='validateur-demandes-en-attente-hierarchie'),
-
-    path('demandes/validation-hierarchie/<int:id>/',
-         views.ValidationHierarchie.as_view(), name="validation-hierarchique-demande"),
-    path('demandes/validation-securite/<int:id>/',
-         views.ValidationSecurite.as_view(), name="validation-securite-demande"),
-    path('demandes/validation-admin/<int:id>/',
-         views.ValidationAdmin.as_view(), name="validation-admin-demande"),
+    # Demandes en attente
+    path('demandes/en-attente/s/', views.DemandesEnAttente.as_view(), name='demandes-en-attente'),
+    path('demandes/en-attente/hierarchie/<str:username>/', views.DemandesEnAttenteHierarchie.as_view(), name='demandes-en-attente-hierarchie'),
 
 
-    path('demandes/refus-hierarchie/<int:id>/',
-         views.RefusHierarchie.as_view(), name="validation-hierarchique-demande"),
-    path('demandes/refus-securite/<int:id>/',
-         views.RefusSecurite.as_view(), name="validation-securite-demande"),
-    path('demandes/expiration-admin/<int:id>/',
-         views.RefusSecurite.as_view(), name="validation-securite-demande"),
+    #Validation (Hierarchie / Securite / Admin)
+    path('demandes/validation-hierarchie/<int:id>/', views.ValidationHierarchie.as_view(), name="validation-hierarchique-demande"),
+    path('demandes/validation-securite/<int:id>/', views.ValidationSecurite.as_view(), name="validation-securite-demande"),
+    path('demandes/validation-admin/<int:id>/', views.ValidationAdmin.as_view(), name="validation-admin-demande"),
+
+    #Refus (Hierarchie / Securite)
+    path('demandes/refus-hierarchie/<int:id>/', views.RefusHierarchie.as_view(), name="refus-hierarchique-demande"),
+    path('demandes/refus-securite/<int:id>/', views.RefusSecurite.as_view(), name="refus-securite-demande"),
+
+    #Expiration
+    path('demandes/expiration-admin/<int:id>/', views.Expiration.as_view(), name="expiration-demande"),
 
 ]

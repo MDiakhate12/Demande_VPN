@@ -1,8 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .constants import DEPARTEMENTS, STATUS, PROTOCOLES
+from .constants import *
 from django.contrib.postgres.fields import JSONField
-
+STATUS = Status()
 
 class Protocole(models.Model):
     nom = models.CharField(max_length=255, null=True, blank=True)
@@ -65,20 +65,20 @@ class Demande(models.Model):
     date_expiration = models.DateTimeField(null=True, blank=True)
     protocoles = models.ManyToManyField(Protocole)
     applications = models.ManyToManyField(Application)
-    status_demande = models.CharField(max_length=100, default=STATUS["attente_hierarchie"])
+    status_demande = models.CharField(max_length=100, default=STATUS.attente_hierarchie)
 
     def __str__(self):
         return self.objet
 
-    def get_status(self):
-        return self.status
+    # def get_status(self):
+    #     return self.status_demande
 
-    def set_status(self, status):
-        try:
-            if(status in STATUS):
-                self.status = STATUS[status]
-                return True
-            raise ValueError
-        except ValueError:
-            print("Le status " + status + " n'existe pas.")
-            return False
+    # def set_status(self, status):
+    #     try:
+    #         if(status in dir(STATUS)[-7:-1]+dir(STATUS)[-1:]):
+    #             self.status_demande = STATUS.__getattribute__(status)
+    #             return True
+    #         raise ValueError
+    #     except ValueError:
+    #         print("Le status " + status + " n'existe pas.")
+    #         return False

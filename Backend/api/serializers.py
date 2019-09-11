@@ -24,14 +24,31 @@ class DemandesHierarchieSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
         fields = ('id', 'objet', 'description', 'date', 'date_expiration',
-                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande')
+                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'applications', 'validation_hierarchique', 'validateur_hierarchique')
+        read_only_fields = ('id', 'objet', 'description', 'date', 'date_expiration',
+                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'applications', 'validation_hierarchique', 'validateur_hierarchique')
 
 
 class DemandesSecuriteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Demande
+
         fields = ('id', 'objet', 'description', 'date', 'date_expiration',
-                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'validation_hierarchique', 'validateur_hierarchique')
+                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'validation_hierarchique', 'validateur_hierarchique', 'validation_securite', 'validateur_securite')
+
+        read_only_fields = ('id', 'objet', 'description', 'date', 'date_expiration',
+                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'applications', 'validation_hierarchique', 'validateur_hierarchique', 'validation_securite', 'validateur_securite')
+
+
+class DemandesAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Demande
+
+        fields = '__all__'
+
+        read_only_fields = ('id', 'objet', 'description', 'date', 'date_expiration',
+                  'beneficiaire', 'demandeur', 'protocoles', 'status_demande', 'applications', 'validation_hierarchique', 'validateur_hierarchique', 'validation_securite', 'validateur_securite', 'validation_admin')
+
 
 class LoginSerializer(serializers.ModelSerializer):
     class Meta:
