@@ -4,7 +4,7 @@ from api.serializers import *
 from api.models import *
 from rest_framework.response import Response
 from .constants import STATUS
-from rest_framework import viewsets
+from rest_framework import viewsets, generics
 from django.contrib.auth.models import User
 
 class DemandeViewSet(viewsets.ModelViewSet):
@@ -23,28 +23,74 @@ class DemandeViewSet(viewsets.ModelViewSet):
         return super().perform_create(serializer)
 
 
+
+    
+class RefustHierarchie(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        demande.validation_hierarchique = False
+        return super().perform_update(serializer)
+
+class RefusSecurite(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        if(demande.validation_hierarchique == True):
+            demande.validation_hierarchique = False
+        return super().perform_update(serializer)
+
+class Validation_hierarchique(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        if(demande.validation_hierarchique == False and demande.get_status() == STATUS.attente_hierarchie):
+            demande.validation_hierarchique = True
+        return super().perform_update(serializer)
+
+class Validation_securite(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        if(demande.validation_hierarchique==True and demande.get_status() == STATUS.attente_securite):
+            demande.validation_securite = True
+            demande.set_status[STATUS.attente_admin]
+        return super().perform_update(serializer)
+
+
+class ValidationAdmin(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        if(demande.validation_securite == True and demande.get_status() == STATUS.attente_admin):
+            demande.set_status[STATUS.valide]
+        return super().perform_update(serializer)
+
+class Expiration(generics.RetrieveUpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeSerializer
+
+    def perform_update(self, serializer):
+        demande = serializer.validated_data
+        demande.set_status[STATUS.expire]
+        return super().perform_update(serializer)
+
+
+
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-
-def rejeter(request, id):
-    demande = Demande.objects.get(pk=id)
-    demande.status_demande = STATUS[1][0]
-    demande.save()
-
-    return redirect('/')
-
-def valider(request, id):
-    demande = Demande.objects.get(pk=id)
-    if(demande.validation_hierarchique == False):
-        demande.validation_hierarchique = True
-    else:
-        demande.validation_securite = True
-
-    demande.save()
-
-    return redirect('/')
 
 
 class DemandesCollaborateursView(ListAPIView):
