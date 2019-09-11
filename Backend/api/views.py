@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from rest_framework.generics import ListAPIView
-from api.serializers import DemandeSerializer, ValidationDemandeSerializer
+from api.serializers import *   
 from api.models import *
 from rest_framework.response import Response
 from .constants import STATUS
@@ -19,12 +19,18 @@ class DemandeViewSet(viewsets.ModelViewSet):
         user = serializer.context['request'].user
         demande['demandeur'] = user
         demande['validateur_hierarchique'] = user.profil.superieur
-        demande['status_demande'] = STATUS[2][1]
+        demande['status_demande'] = STATUS[2][0]
         return super().perform_create(serializer)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
 
 def rejeter(request, id):
     demande = Demande.objects.get(pk=id)
-    demande.status_demande = STATUS[1][1]
+    demande.status_demande = STATUS[1][0]
     demande.save()
 
     return redirect('/')
@@ -41,10 +47,20 @@ def valider(request, id):
     return redirect('/')
 
 
-class DemandeCollaborateursView(ListAPIView):
-    serializer_class = DemandeSerializer
+class DemandesCollaborateursView(ListAPIView):
+    serializer_class = DemandesHierarchieSerializer
 
     def get_queryset(self):
         username = self.kwargs['username']
         demandes = Demande.objects.filter(validateur_hierarchique__profil__superieur__username=username)
+        return demandes
+
+class DemandesSecuriteEnAttenteView(ListAPIView):
+    serializer_class = DemandesSecuriteSerializer
+    
+
+    def get_queryset(self):
+        demandes = Demande.objects.filter(status_demande=STATUS[2][0], validation_hierarchique=True)
+        print(demandes)
+        print(STATUS[2][1])
         return demandes

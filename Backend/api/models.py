@@ -25,13 +25,25 @@ class Profil(models.Model):
     def __str__(self):
         return self.user.username
 
+class Admin(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+class ValidateurSecurite(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
 class Demande(models.Model):
 
     objet = models.CharField(max_length=100)
     description = models.TextField()
     beneficiaire = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     demandeur = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='demandes', null=True, blank=True)
-    validateur_securite = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='demandes_recues', null=True, blank=True)
+    validateur_securite = models.ForeignKey(ValidateurSecurite, on_delete=models.SET_NULL, related_name='demandes_recues', null=True, blank=True)
     validateur_hierarchique = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='demandes_agents', null=True, blank=True)
     status_demande = models.CharField(max_length=100, choices=STATUS, null=True, blank=True)
     validation_securite = models.BooleanField(default=False)
@@ -46,7 +58,5 @@ class Demande(models.Model):
         return self.objet
 
 
-class Admin(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    
+
 

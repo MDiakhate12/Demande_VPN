@@ -20,11 +20,13 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register('demandes', views.DemandeViewSet)
+router.register('users', views.UserViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('demandes/rejeter/<int:id>', views.rejeter, name='rejeter-demande'),
-    path('demandes/valider/<int:id>', views.valider, name='valider-demande'),    
-    path('demandes/validateur/<str:username>/', views.DemandeCollaborateursView.as_view(), name='validateur-demandes'),
+    path('demandes/rejeter/<int:id>/', views.rejeter, name='rejeter-demande'),
+    path('demandes/valider/<int:id>/', views.valider, name='valider-demande'),    
+    path('demandes/validateur/<str:username>/', views.DemandesCollaborateursView.as_view(), name='validateur-demandes'),
+    path('demandes/securite/en-attente/', views.DemandesSecuriteEnAttenteView.as_view(), name='validateur-demandes'),
 
 ]
