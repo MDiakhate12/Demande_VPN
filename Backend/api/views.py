@@ -26,7 +26,7 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
-class DemandesCollaborateursView(ListAPIView):
+class DemandesCollaborateurs(ListAPIView):
     serializer_class = DemandesHierarchieSerializer
 
     def get_queryset(self):
@@ -34,10 +34,9 @@ class DemandesCollaborateursView(ListAPIView):
         demandes_collaborateurs = Demande.objects.filter(demandeur__profil__superieur__username=username, )
         return demandes_collaborateurs
 
-class DemandesSecuriteEnAttenteView(ListAPIView):
+class DemandesEnAttente(ListAPIView):
     serializer_class = DemandesSecuriteSerializer
     
-
     def get_queryset(self):
         demandes = Demande.objects.filter(status_demande=STATUS.attente_securite, validation_hierarchique=True)
         return demandes
