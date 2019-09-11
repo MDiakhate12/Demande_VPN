@@ -12,10 +12,10 @@ class DemandeSerializer(serializers.ModelSerializer):
         read_only_fields = (
             'demandeur',
             'status_demande',
-            'validation_securite',
             'validation_hierarchique',
-            'validateur_securite',
             'validateur_hierarchique',
+            'validation_securite',
+            'validateur_securite',
             'validation_admin'
         )
 

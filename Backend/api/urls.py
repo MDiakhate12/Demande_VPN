@@ -25,8 +25,18 @@ router.register('users', views.UserViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('demandes/rejeter/<int:id>/', views.rejeter, name='rejeter-demande'),
-    path('demandes/valider/<int:id>/', views.valider, name='valider-demande'),    
-    path('demandes/validateur/<str:username>/', views.DemandesCollaborateursView.as_view(), name='validateur-demandes'),
-    path('demandes/securite/en-attente/', views.DemandesSecuriteEnAttenteView.as_view(), name='validateur-demandes'),
+    path('demandes/valider/<int:id>/', views.valider, name='valider-demande'),
+    path('demandes/validateur/<str:username>/',
+         views.DemandesCollaborateursView.as_view(), name='validateur-demandes'),
+    path('demandes/securite/en-attente/',
+         views.DemandesSecuriteEnAttenteView.as_view(), name='validateur-demandes'),
+
+    path('demandes/valider-hierarchie/<int:id>/', views.ValidationHierarchie.as_view(), name="validation-hierarchique-demande"),
+    path('demandes/valider-securite/<int:id>/', views.ValidationSecurite.as_view(), name="validation-securite-demande"),
+    path('demandes/valider-admin/<int:id>/', views.ValidationAdmin.as_view(), name="validation-admin-demande"),
+
+
+    path('demandes/refus-hierarchie/<int:id>/', views.RefusHierarchie.as_view(), name="validation-hierarchique-demande"),
+    path('demandes/refus-securite/<int:id>/', views.RefusSecurite.as_view(), name="validation-securite-demande"),
 
 ]
