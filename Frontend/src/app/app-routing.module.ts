@@ -3,8 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { DemandeComponent } from './demande/demande.component';
 
 const routes: Routes = [
+  {'path': 'nouvelle-demande', "component": DemandeComponent},
   {'path': 'demande', "component": DemandeComponent},
-  // {'path': '', "redirectTo": DemandeComponent, "pathMatch": "full"},
+  {'path': 'demande', "component": DemandeComponent},
 ];
 
 @NgModule({

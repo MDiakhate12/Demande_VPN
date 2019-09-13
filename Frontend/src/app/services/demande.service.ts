@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 
 export class DemandeService {
 
-    baseURL = "http://127.0.0.1:8000/";
+    baseURL = "http://127.0.0.1:8000/api/demandes/";
     httpHeaders = new HttpHeaders({
         'Content-Type': 'application/json'
     })
@@ -18,11 +18,16 @@ export class DemandeService {
     }
 
     sendDemande(demande){
-        let url = "api/demandes/";
         console.log(demande);
-        console.log(this.baseURL + url);
+        console.log(this.baseURL);
+        let url = "create/";
         let request = this.http.post(this.baseURL + url, demande, {headers: this.httpHeaders});
         console.log(request);
         return request;
+    }
+
+    getDemandeWithId(id: number) {
+        let url = id + "/";
+        return this.http.get(this.baseURL + url, {headers: this.httpHeaders});
     }
 }

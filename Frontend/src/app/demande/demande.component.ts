@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DemandeService } from '../services/demande.service';
+import { Demande } from '../models/demande.model';
+import { User } from '../models/user.model';
+import { Protocole } from '../models/protocole.model';
+import { Application } from '../models/application.model';
+import { GenericService } from '../services/generic.service';
 
 @Component({
   selector: 'app-demande',
@@ -8,45 +13,38 @@ import { DemandeService } from '../services/demande.service';
 })
 export class DemandeComponent implements OnInit {
 
-  opened: boolean =false;
+  opened: boolean = false;
 
-  users = [
-    {'username':'Deme'},
-    {'username':'Diahate'},
-    {'username':'Gaye'}
-  ]
-  protocoles = [
-    'HTTP',
-    'HTTPS',
-    'TCP',
-    'IP',
-    'UDP'
-  ]
+  users: User[];
+  protocoles: Protocole[];
+  applications: Application[];
 
-  applications = [
-    'Geoprobe',
-    'Otarie'
-  ]
+  demande = new Demande();
 
-  demande = {
-    objet: null,
-    description: null,
-    beneficiaire: null,
-    date_expiration: null,
-    applications: null,
-    protocoles: null
+  constructor(private demandeService: DemandeService, private genericService: GenericService) {
+    this.users = [];
+    this.protocoles = [];
+    this.applications = [];
+    console.log(this.applications);
   }
-  
-
-  constructor(private demandeService: DemandeService) { }
 
   ngOnInit() {
+    this.genericService.init(this);
   }
 
+  getDemandeWithId(id: number) {
+    this.demandeService.getDemandeWithId(id).subscribe(
+      data => {
+        console.log(id);
+        console.log(data);
+        this.demande = this.demande.deserialize(data);
+        console.log(this.demande);
+      }
+    );
+  }
+
+
   onSubmit() {
-    this.demande.applications = [1];
-    this.demande.beneficiaire = 1;
-    this.demande.protocoles = [1, 2];
 
     this.demandeService.sendDemande(this.demande).subscribe(
       data => {

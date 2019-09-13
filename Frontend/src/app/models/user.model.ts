@@ -10,8 +10,11 @@ export class User implements Deserializable {
 
     deserialize(input: any): this {
 
+        console.log(this);
+        console.log(input);
+        console.log("--------------------");
         Object.assign(this, input);
-
+        console.log(this);
         this.profil = new Profil().deserialize(input.profil)
 
         return this;
