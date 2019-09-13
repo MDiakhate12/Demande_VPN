@@ -24,8 +24,8 @@ class DemandeViewSet(ModelViewSet):
     def perform_create(self, serializer):
         demande = serializer.validated_data
         user = serializer.context['request'].user
-        demande['demandeur'] = user
-        demande['validateur_hierarchique'] = user.profil.superieur
+        # demande['demandeur'] = user
+        # demande['validateur_hierarchique'] = user.profil.superieur
         demande['status_demande'] = STATUS.attente_hierarchie
         return super().perform_create(serializer)
 

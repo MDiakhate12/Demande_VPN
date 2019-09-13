@@ -1,0 +1,72 @@
+<mat-sidenav-container>
+
+    <mat-sidenav mode="side" [(opened)]="opened">
+        <h1>Hello</h1>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+        <button mat-raised-button (click)="opened=!opened">Menu</button>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item>Accueil</button>
+            <button mat-menu-item>Profil</button>
+        </mat-menu>
+
+
+        <div class="container col-sm-12 col-md-6">
+            <form action="" method="POST">
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Objet</mat-label>
+                    <input [(ngModel)]="demande.objet" name="objet" matInput>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Bénéficiaire</mat-label>
+                    <mat-select [(value)]="demande.beneficiaire">
+                        <mat-option *ngFor="let user of users" [value]="user.username">
+                            {{user.username}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Date d'expiration</mat-label>
+                    <input [(ngModel)]="demande.date_expiration" name="date_expiration" matInput
+                        [matDatepicker]="picker1">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                        <mat-label>Application</mat-label>
+                        <mat-select [(value)]="demande.applications" multiple>
+                            <mat-option *ngFor="let application of applications" [value]="application">
+                                {{application}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+    
+                    <mat-form-field appearance="outline">
+                        <mat-label>Procotoles</mat-label>
+                        <mat-select [(value)]="demande.protocoles" multiple>
+                            <mat-option *ngFor="let protocole of protocoles" [value]="protocole">
+                                {{protocole}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Description</mat-label>
+                    <textarea [(ngModel)]="demande.description" name="description" rows="12" matInput></textarea>
+                </mat-form-field>
+
+                <button (click)="onSubmit()" class="btn btn-lg btn-block btn-info" type="submit"
+                    mat-raised-button>Envoyer demande</button>
+            </form>
+        </div>
+
+    </mat-sidenav-content>
+</mat-sidenav-container>

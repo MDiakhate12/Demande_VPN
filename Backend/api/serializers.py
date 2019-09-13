@@ -4,8 +4,39 @@ from .models import *
 from django.contrib.auth.models import User
 from .constants import *
 
+class ProfilSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profil
+        fields = ['entreprise', 'telephone', 'departement', 'superieur']
+
+
+class UserSerializer(serializers.ModelSerializer):
+    profil = ProfilSerializer()
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'email', 'profil')
+
+
+class ProtocoleSeriallizer(serializers.ModelSerializer):
+    class Meta:
+        model = Protocole
+        fields = ('nom',)
+
+class ApplicationSeriallizer(serializers.ModelSerializer):
+    class Meta:
+        model = Application
+        fields = ('nom', 'adresse_ip')
+
 
 class DemandeSerializer(serializers.ModelSerializer):
+    demandeur = UserSerializer()
+    beneficiaire = UserSerializer()
+    validateur_hierarchique = UserSerializer()
+    validateur_securite = UserSerializer()
+    protocoles = ProtocoleSeriallizer(many=True)
+    applications = ApplicationSeriallizer(many=True)
+
     class Meta:
         model = Demande
         fields = '__all__'
@@ -76,22 +107,3 @@ class LoginSerializer(serializers.ModelSerializer):
             return data
 
 
-class ProfilSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Profil
-        fields = ('id', 'departement',)
-
-
-class UserSerializer(serializers.ModelSerializer):
-    profil = serializers.Hyperlink(
-        url='127.0.0.1:8000/api/demandes/', obj=Profil)
-
-    class Meta:
-        model = User
-        fields = ('username', 'email', 'profil')
-
-
-class ProtocoleSeriallizer(serializers.ModelSerializer):
-    class Meta:
-        model = Protocole
-        fields = ('nom',)

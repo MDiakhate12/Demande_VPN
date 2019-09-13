@@ -13,7 +13,7 @@ class Protocole(models.Model):
 
 class Application(models.Model):
     nom = models.CharField(max_length=255, null=True, blank=True)
-    addresse_ip = models.GenericIPAddressField()
+    adresse_ip = models.GenericIPAddressField()
 
     def __str__(self):
         return self.nom
