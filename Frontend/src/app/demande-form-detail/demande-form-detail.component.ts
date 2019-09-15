@@ -20,7 +20,7 @@ export class DemandeFormDetailComponent implements OnInit {
   demande: Demande = new Demande();
 
   constructor(private demandeService: DemandeService, private genericService: GenericService, private router: Router, private route: ActivatedRoute) {
-    console.log(this.applications);
+    console.log(this.demande);
     console.log(this.route);
     console.log(this.router);
   }

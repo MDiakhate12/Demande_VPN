@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ValidationHierarchiqueComponent implements OnInit {
 
   panelOpenState = true;
+  step = 0;
 
   users: User[]= [];;
   protocoles: Protocole[]= [];;
@@ -31,7 +32,19 @@ export class ValidationHierarchiqueComponent implements OnInit {
     console.log(this.demandes);
   }
 
-  
+
+  setStep(index: number) {
+    this.step = index;
+  }
+
+  nextStep() {
+    this.step++;
+  }
+
+  prevStep() {
+    this.step--;
+  }
+
   initDemandeEnAttenteHierarchique() {
     this.username = this.router.snapshot.paramMap.get("username");
     this.demandeService.getDemandeEnAttenteHierarchiqueOf(this.username).subscribe(response => {

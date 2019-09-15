@@ -13,6 +13,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     overflow-y: hidden;
     height: 100%;
 }
+
 #app-demande-detail {
+    background-image: url('./assets/img/curves_right.jpg');
+    background-size: cover;
+    background-position: center center;
+    height: 100%;
+}
+
+app-demande-validation-detail {
+    overflow: hidden;
+}
+
+#validation-hierarchique {
+    background-image: url('./assets/img/curves_down.jpg');
+    background-size: cover;
+    background-position: center center;
     height: 100%;
 }

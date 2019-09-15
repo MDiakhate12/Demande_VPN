@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { User } from '../models/user.model';
 import { Demande } from '../models/demande.model';
 
 @Injectable({
@@ -15,18 +14,25 @@ export class DemandeService {
     httpHeaders = new HttpHeaders({
         'Content-Type': 'application/json'
     })
-    
+    STATUS = [
+
+        "En attente de la validation du supérieur hierarchique",
+        "En attente de la validation du supérieur hierarchique",
+         "En attente de la validation sécurité",
+         "En attente de la validation sécurité",
+         "En attente de la configuration de l'admin",
+         "Demande validée, VPN ouvert",
+         "Demande expirée, VNP fermé"
+   ]
     constructor(private http: HttpClient) {
 
     }
 
-    sendDemande(demande){
+    sendDemande(demande): Observable<HttpResponse<Demande>>{
         console.log(demande);
-        console.log(this.baseURL);
         let url = this.baseURL + "create/";
-        let request = this.http.post(url, demande, {headers: this.httpHeaders});
-        console.log(request);
-        return request;
+        console.log(this.baseURL);
+        return this.http.post<Demande>(url, demande, {headers: this.httpHeaders, observe: 'response'});
     }
 
     getDemandeWithId(id: number) {

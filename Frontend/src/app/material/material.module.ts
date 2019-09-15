@@ -15,10 +15,11 @@ import {
   MatCardModule,
   MatExpansionModule,
   MatToolbarModule,
-  MatTabGroup,
   MatTabsModule,
   MatListModule,
-  MatDividerModule
+  MatDividerModule,
+  MatProgressBarModule,
+  MatSlideToggleModule,
 } from '@angular/material';
 
 const MaterialComponents = [
@@ -39,7 +40,9 @@ const MaterialComponents = [
   MatToolbarModule,
   MatTabsModule,
   MatListModule,
-  MatDividerModule
+  MatDividerModule,
+  MatProgressBarModule,
+  MatSlideToggleModule,
 ];
 
 @NgModule({
