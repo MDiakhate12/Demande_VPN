@@ -2,3 +2,17 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+#demandeForm {
+    background-image: url('./assets/img/curves_left.jpg');
+    background-size: cover;
+    background-position: center center;
+}
+
+#app-demande {
+    overflow-y: hidden;
+    height: 100%;
+}
+#app-demande-detail {
+    height: 100%;
+}

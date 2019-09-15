@@ -1,0 +1,8 @@
+.example-tab-icon {
+    margin-right: 8px;
+  }
+
+  mat-tab-group {
+      height: 100%;
+  }
+
