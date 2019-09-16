@@ -15,6 +15,8 @@
 
                 <mat-icon color="warn" mat-list-icon>hourglass_full</mat-icon>
                 <h4 mat-line>Status : {{ demande.status_demande }}</h4>
+                <mat-checkbox disabled [checked]="demande.status_demande === 'statuses[3]'"></mat-checkbox>
+                {{ statuses[3] }}
 
             </mat-list-item>
 
@@ -22,7 +24,7 @@
 
             <mat-list-item>
                 <mat-icon color="warn" mat-list-icon>account_box</mat-icon>
-                <h4 mat-line>Validateur sécurité : {{ demande.validateur_securite }}</h4>
+                <h4 mat-line>Validateur sécurité : {{ demande.validateur_securite.user.username }}</h4>
             </mat-list-item>
 
 
@@ -32,7 +34,7 @@
 
             <mat-list-item>
                 <mat-icon color="warn" mat-list-icon>trending_up</mat-icon>
-                <mat-progress-bar mat-line mode="determinate" [value]="progress"></mat-progress-bar>
+                <mat-progress-bar mat-line color="warn" mode="determinate" [value]="progress"></mat-progress-bar>
             </mat-list-item>
 
             <mat-list-item>
@@ -44,14 +46,14 @@
 
             <mat-list-item>
                 <mat-icon color="warn">security</mat-icon>
-                <mat-slide-toggle labelPosition="before" [style.color]="color" [checked]="demande.validaion_securite"
+                <mat-slide-toggle labelPosition="before" [style.color]="color" [checked]="demande.validation_securite"
                     disabled>Sécurité
                 </mat-slide-toggle>
             </mat-list-item>
 
             <mat-list-item>
                 <mat-icon color="warn">rss_feed</mat-icon>
-                <mat-slide-toggle labelPosition="before" [style.color]="color" [checked]="demande.validaion_admin"
+                <mat-slide-toggle labelPosition="before" [style.color]="color" [checked]="demande.validation_admin"
                     disabled>Réseau VPN
                 </mat-slide-toggle>
             </mat-list-item>

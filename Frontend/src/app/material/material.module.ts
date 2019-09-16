@@ -20,6 +20,7 @@ import {
   MatDividerModule,
   MatProgressBarModule,
   MatSlideToggleModule,
+  MatCheckboxModule,
 } from '@angular/material';
 
 const MaterialComponents = [
@@ -43,6 +44,8 @@ const MaterialComponents = [
   MatDividerModule,
   MatProgressBarModule,
   MatSlideToggleModule,
+  MatProgressSpinnerModule,
+  MatCheckboxModule
 ];
 
 @NgModule({

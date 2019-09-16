@@ -15,46 +15,28 @@ export class DemandeService {
         'Content-Type': 'application/json'
     })
     STATUS = [
-
         "En attente de la validation du supérieur hierarchique",
-        "En attente de la validation du supérieur hierarchique",
-         "En attente de la validation sécurité",
-         "En attente de la validation sécurité",
-         "En attente de la configuration de l'admin",
-         "Demande validée, VPN ouvert",
-         "Demande expirée, VNP fermé"
+        "En attente de la validation sécurité",
+        "En attente de la configuration de l'admin",
+        "Demande validée, VPN ouvert",
+        "Demande expirée, VNP fermé",
+        "Refus du supérieur hierarchique",
+        "Redus de la sécurité",
    ]
     constructor(private http: HttpClient) {
 
     }
 
     sendDemande(demande): Observable<HttpResponse<Demande>>{
-        console.log(demande);
         let url = this.baseURL + "create/";
-        console.log(this.baseURL);
         return this.http.post<Demande>(url, demande, {headers: this.httpHeaders, observe: 'response'});
     }
 
-    getDemandeWithId(id: number) {
+    getDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
         let url = this.baseURL + id + "/";
-        return this.http.get(url, {headers: this.httpHeaders});
+        return this.http.get<Demande>(url, {headers: this.httpHeaders, observe: 'response'});
     }
 
-    private handleError(error: HttpErrorResponse) {
-        if (error.error instanceof ErrorEvent) {
-          // A client-side or network error occurred. Handle it accordingly.
-          console.error('An error occurred:', error.error.message);
-        } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong,
-          console.error(
-            `Backend returned code ${error.status}, ` +
-            `body was: ${error.error}`);
-        }
-        // return an observable with a user-facing error message
-        return throwError(
-          'Something bad happened; please try again later.');
-      };
 
     getDemandeEnAttenteHierarchiqueOf(username: string): Observable<HttpResponse<Demande[]>> {
         let url = this.baseURL + "en-attente/hierarchie/" + username + "/";
@@ -63,4 +45,67 @@ export class DemandeService {
             catchError(this.handleError)
         )
     }
+
+    getDemandeEnAttenteSecuriteOf(): Observable<HttpResponse<Demande[]>> {
+        let url = this.baseURL + "en-attente/securite/";
+        return this.http.get<Demande[]>(url, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Fetched ${this.getDemandeEnAttenteSecuriteOf.name} from ${url}`)),
+            catchError(this.handleError)
+        )
+    }
+
+    getDemandeEnAttenteAdminOf(): Observable<HttpResponse<Demande[]>> {
+        let url = this.baseURL + "en-attente/admin/";
+        return this.http.get<Demande[]>(url, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Fetched ${this.getDemandeEnAttenteAdminOf.name} from ${url}`)),
+            catchError(this.handleError)
+        )
+    }
+
+    acceptDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "validation-hierarchie/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Validated demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
+
+    validateDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "validation-securite/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Validated demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
+
+    configureDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "validation-admin/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Configured demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
+    
+    rejectDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "refus-hierarchie/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Rejected demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
+
+
+    //Error handling
+
+    private handleError(error: HttpErrorResponse) {
+        if (error.error instanceof ErrorEvent) {
+          // A client-side or network error occurred. Handle it accordingly.
+          console.error('An error occurred:', error.error.message);
+        } else {
+          // The backend returned an unsuccessful response code.
+          // The response body may contain clues as to what went wrong,Hierarchique
+          console.error(
+            `Backend returned code ${error.status}, ` +
+            `body was: ${error.error}`);
+        }
+        // return an observable with a user-facing error message
+        return throwError(
+          'Something bad happened; please try again later.');
+      };
 }

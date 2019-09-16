@@ -4,7 +4,7 @@ import { Protocole } from "./protocole.model";
 import { Application } from "./application.model";
 
 
-export class Demande implements Deserializable {
+export class Demande {
 
     id: number;
     objet: string;
@@ -19,26 +19,26 @@ export class Demande implements Deserializable {
     demandeur: User;
     validateur_hierarchique: User;
     validateur_securite: User;
-    protocoles: string[];
-    applications: string[];
+    protocoles: Protocole[];
+    applications: Application[];
 
 
-    deserialize(input: any): this {
-        Object.assign(this, input);
+    // deserialize(input: any): this {
+    //     Object.assign(this, input);
 
-        this.demandeur = new User().deserialize(input.demandeur);
-        this.beneficiaire = new User().deserialize(input.demandeur);
-        this.validateur_hierarchique = new User().deserialize(input.validateur_hierarchique);
-        this.validateur_securite = new User().deserialize(input.validateur_securite);
+    //     this.demandeur = new User().deserialize(input.demandeur);
+    //     this.beneficiaire = new User().deserialize(input.beneficiaire);
+    //     this.validateur_hierarchique = new User().deserialize(input.validateur_hierarchique);
+    //     this.validateur_securite = new User().deserialize(input.validateur_securite);
 
-        this.protocoles = input.protocoles.map(protocole => {
-            return new protocole().deserialize(protocole)
-        });
+    //     this.protocoles = input.protocoles.map(protocole => {
+    //         return new protocole().deserialize(protocole)
+    //     });
         
-        this.applications = input.applications.map(application => {
-            return new application().deserialize(application)
-        });
+    //     this.applications = input.applications.map(application => {
+    //         return new application().deserialize(application)
+    //     });
 
-        return this;
-    }
+    //     return this;
+    // }
 }   

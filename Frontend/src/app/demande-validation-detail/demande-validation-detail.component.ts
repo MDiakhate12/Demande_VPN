@@ -22,37 +22,33 @@ export class DemandeValidationDetailComponent implements OnInit {
   progress: number = 0;
   statuses = this.demandeService.STATUS;
 
-  constructor(private demandeService: DemandeService, private genericService: GenericService, private router: Router, private route: ActivatedRoute) {
-    console.log(this.applications);
-    console.log(this.route);
-    console.log(this.router);
-    console.log(this.statuses);
-  }
+  constructor(private demandeService: DemandeService, private genericService: GenericService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.genericService.init(this);
-     let id = this.route.snapshot.paramMap.get('id');
-     this.getDemandeWithId(id);
-     this.status2Progress();
-     console.log("progress : ",this.progress);
-     document.getElementById('mat-tab-body-content').style.overflow = "hidden";
-     console.log(document.getElementById('mat-tab-body-content'));
+    let id = this.route.snapshot.paramMap.get('id');
+    this.getDemandeWithId(id);
   }
 
-  status2Progress() {
-    this.progress = Math.round(100/(this.statuses.length) * (this.statuses.indexOf(this.demande.status_demande) + 2));
-    // this.progress = Math.round(100/(this.statuses.length) * (this.statuses.indexOf(this.demande.status_demande) + 3));
-  }
+  // status2Progress() {
+  //   console.log("status demande : ", this.demande.status_demande);
+  //   return Math.round(100 / (this.statuses.length) * (this.statuses.indexOf(this.demande.status_demande) + 2));
+  //   // this.progress = Math.round(100/(this.statuses.length) * (this.statuses.indexOf(this.demande.status_demande) + 3));
+  // }
 
 
 
   getDemandeWithId(id) {
     this.demandeService.getDemandeWithId(id).subscribe(
-      data => {
-        console.log(id);
-        console.log(data);
-        this.demande = this.demande.deserialize(data);
-        console.log(this.demande);
+      async response => {
+        // this.demande = this.demande.deserialize(response);
+        this.demande = response.body
+        let demande = Promise.resolve(this.demande);
+        console.log("demande : ", this.demande);
+        console.log("demandePromise : ", demande);
+        console.log("response : ", response);
+        this.progress = Math.round(100 / (this.statuses.length - 3) * (this.statuses.indexOf((await demande).status_demande) + 1));
+        console.log("progress : ", this.progress);
       }
     );
   }

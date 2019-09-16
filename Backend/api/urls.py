@@ -19,14 +19,20 @@ from . import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register('demandes', views.DemandeViewSet)
 router.register('users', views.UserViewSet)
+router.register('protocoles', views.ProtocoleList)
+router.register('applications', views.ApplicationList)
 
 urlpatterns = [
     path('', include(router.urls)),
 
+    path('demandes/', views.DemandeList.as_view()),
+    path('demandes/<int:id>/', views.DemandeDetail.as_view()),
+    path('demandes/create/', views.DemandeCreate.as_view()),
+
     # Demandes en attente
-    path('demandes/en-attente/s/', views.DemandesEnAttente.as_view(), name='demandes-en-attente'),
+    path('demandes/en-attente/securite/', views.DemandesEnAttenteSecurite.as_view(), name='demandes-en-attente-securite'),
+    path('demandes/en-attente/admin/', views.DemandesEnAttenteAdmin.as_view(), name='demandes-en-attente-admin'),
     path('demandes/en-attente/hierarchie/<str:username>/', views.DemandesEnAttenteHierarchie.as_view(), name='demandes-en-attente-hierarchie'),
 
 

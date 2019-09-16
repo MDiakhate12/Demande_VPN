@@ -11,12 +11,12 @@ DEPARTEMENTS = (
 
 class Status(object):
     attente_hierarchie = "En attente de la validation du supérieur hierarchique"
-    refus_hierarchie = "En attente de la validation du supérieur hierarchique"
-    refus_securite =  "En attente de la validation sécurité"
     attente_securite =  "En attente de la validation sécurité"
     attente_admin =  "En attente de la configuration de l'admin"
     valide =  "Demande validée, VPN ouvert"
     expire =  "Demande expirée, VNP fermé"
+    refus_hierarchie = "Refus du supérieur hierarchique"
+    refus_securite =  "Redus de la sécurité"
 
 
 PROTOCOLES = (

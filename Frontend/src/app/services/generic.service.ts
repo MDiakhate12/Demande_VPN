@@ -53,7 +53,6 @@ export class GenericService {
         data.map(application => {
           target.applications.push(application);
         })
-        console.log(target.applications);
       }
     );
   }

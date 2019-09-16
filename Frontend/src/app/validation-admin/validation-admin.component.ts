@@ -8,11 +8,11 @@ import { GenericService } from '../services/generic.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: '#validation-hierarchique',
-  templateUrl: './validation-hierarchique.component.html',
-  styleUrls: ['./validation-hierarchique.component.css']
+  selector: 'app-validation-admin',
+  templateUrl: './validation-admin.component.html',
+  styleUrls: ['./validation-admin.component.css']
 })
-export class ValidationHierarchiqueComponent implements OnInit {
+export class ValidationAdminComponent implements OnInit {
 
   panelOpenState = true;
   step = 0;
@@ -27,7 +27,7 @@ export class ValidationHierarchiqueComponent implements OnInit {
 
   ngOnInit() {
     this.genericService.init(this);
-    this.initDemandeEnAttenteHierarchique();
+    this.initDemandeEnAttenteAdmin();
     console.log(this.router);
     console.log(this.demandes);
   }
@@ -45,9 +45,9 @@ export class ValidationHierarchiqueComponent implements OnInit {
     this.step--;
   }
 
-  initDemandeEnAttenteHierarchique() {
-    this.username = this.router.snapshot.paramMap.get("username");
-    this.demandeService.getDemandeEnAttenteHierarchiqueOf(this.username).subscribe(response => {
+  initDemandeEnAttenteAdmin() {
+    this.demandeService.getDemandeEnAttenteAdminOf().subscribe(response => {
+      console.log(response);
       this.demandes = response.body;
     }
     );
@@ -55,9 +55,9 @@ export class ValidationHierarchiqueComponent implements OnInit {
 
   validerDemande(id: number) {
     if (confirm("Confirmez vous la validation ?")) {
-      this.demandeService.acceptDemandeWithId(id).subscribe(
+      this.demandeService.configureDemandeWithId(id).subscribe(
         data => {
-          this.initDemandeEnAttenteHierarchique();
+          this.initDemandeEnAttenteAdmin();
           console.log(data);
         },
         error => {

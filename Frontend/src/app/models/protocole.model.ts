@@ -1,10 +1,10 @@
 import { Deserializable } from './deserializable.model';
 
-export class Protocole implements Deserializable {
+export class Protocole {
     id: number;
     nom: string;
     
-    deserialize(input: any): this {
-        return Object.assign(this, input);
-    }
+    // deserialize(input: any): this {
+    //     return Object.assign(this, input);
+    // }
 }

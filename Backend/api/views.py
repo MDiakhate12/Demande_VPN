@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
+from rest_framework.generics import UpdateAPIView, RetrieveAPIView, CreateAPIView, ListAPIView, RetrieveUpdateAPIView
 from api.serializers import *   
 from api.models import *
 from rest_framework.response import Response
@@ -13,13 +13,31 @@ class UserViewSet(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+class ApplicationList(ModelViewSet):
+    queryset = Application.objects.all()
+    serializer_class = ApplicationSeriallizer
 
-class DemandeViewSet(ModelViewSet):
+class ProtocoleList(ModelViewSet):
+    queryset = Protocole.objects.all()
+    serializer_class = ProtocoleSeriallizer
+
+class DemandeList(ListAPIView):
     queryset = Demande.objects.all()
-    serializer_class = DemandeSerializer
+    serializer_class = DemandeListSerializer
 
-    # Petite modification pour affecter la valeur du demandeur, 
-    # du validateur de la mise à jour du status
+class DemandeUpdate(UpdateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeCreateSerializer
+    lookup_field = "id"
+
+class DemandeDetail(RetrieveAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeListSerializer
+    lookup_field = "id"
+
+class DemandeCreate(CreateAPIView):
+    queryset = Demande.objects.all()
+    serializer_class = DemandeCreateSerializer
 
     def perform_create(self, serializer):
         demande = serializer.validated_data
@@ -30,7 +48,7 @@ class DemandeViewSet(ModelViewSet):
         return super().perform_create(serializer)
 
 
-class DemandesEnAttente(ListAPIView):
+class DemandesEnAttenteSecurite(ListAPIView):
     serializer_class = DemandesSecuriteSerializer
     
     def get_queryset(self):
@@ -45,6 +63,14 @@ class DemandesEnAttenteHierarchie(ListAPIView):
         username = self.kwargs['username']
         demandes = Demande.objects.filter(demandeur__profil__superieur__username=username, validation_hierarchique=False)
         return demandes
+
+class DemandesEnAttenteAdmin(ListAPIView):
+    serializer_class = DemandesAdminSerializer
+
+    def get_queryset(self):
+        demandes = Demande.objects.filter(validation_hierarchique=True, validation_securite=True)
+        return demandes
+
 
 
 class ValidationHierarchie(RetrieveUpdateAPIView):

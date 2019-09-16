@@ -15,6 +15,9 @@ import { LoginComponent } from './login/login.component';
 import { DemandeDetailComponent } from './demande-detail/demande-detail.component';
 import { DemandeFormDetailComponent } from './demande-form-detail/demande-form-detail.component';
 import { DemandeValidationDetailComponent } from './demande-validation-detail/demande-validation-detail.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ValidationSecuriteComponent } from './validation-securite/validation-securite.component';
+import { ValidationAdminComponent } from './validation-admin/validation-admin.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +28,10 @@ import { DemandeValidationDetailComponent } from './demande-validation-detail/de
     LoginComponent,
     DemandeDetailComponent,
     DemandeFormDetailComponent,
-    DemandeValidationDetailComponent
+    DemandeValidationDetailComponent,
+    DashboardComponent,
+    ValidationSecuriteComponent,
+    ValidationAdminComponent
   ],
   imports: [
     BrowserModule,
