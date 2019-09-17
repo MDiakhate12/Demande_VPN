@@ -6,6 +6,7 @@ import { DemandeDetailComponent } from './demande-detail/demande-detail.componen
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ValidationSecuriteComponent } from './validation-securite/validation-securite.component';
 import { ValidationAdminComponent } from './validation-admin/validation-admin.component';
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   {path: 'nouvelle-demande', component: DemandeComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: 'validation-hierarchique/:username', component:  ValidationHierarchiqueComponent},
   {path: 'validation-securite', component:  ValidationSecuriteComponent},
   {path: 'validation-admin', component:  ValidationAdminComponent},
-  {path: 'dashboard', component: DashboardComponent}
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'login', component: LoginComponent}
 ];
 
 @NgModule({
