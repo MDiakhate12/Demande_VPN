@@ -90,6 +90,19 @@ export class DemandeService {
         );
     }
 
+    declineDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "refus-securite/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Rejected demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
+
+    expirationDemandeWithId(id: number): Observable<HttpResponse<Demande>> {
+        let url = this.baseURL + "expiration-admin/" + id + "/";
+        return this.http.put<Demande>(url, null, {observe: 'response'}).pipe(
+            tap(_ => console.log(`Expiration demande with id ${id} at ${this.baseURL + id + "/"}`))
+        );
+    }
 
     //Error handling
 

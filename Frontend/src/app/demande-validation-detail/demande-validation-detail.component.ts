@@ -21,6 +21,7 @@ export class DemandeValidationDetailComponent implements OnInit {
   demande: Demande = new Demande();
   progress: number = 0;
   statuses = this.demandeService.STATUS;
+  checked = false;
 
   constructor(private demandeService: DemandeService, private genericService: GenericService, private route: ActivatedRoute) { }
 
@@ -28,6 +29,8 @@ export class DemandeValidationDetailComponent implements OnInit {
     this.genericService.init(this);
     let id = this.route.snapshot.paramMap.get('id');
     this.getDemandeWithId(id);
+    this.demande.status_demande == 'statuses[3]' ? this.checked = true : this.checked = false;
+
   }
 
   // status2Progress() {

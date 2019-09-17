@@ -57,12 +57,12 @@
                     </button>
                     <button mat-button color="primary" (click)="nextStep()">Next<mat-icon>navigate_next</mat-icon>
                     </button>
-                    <button mat-button class="btn btn-danger" (click)="refuserDemande(demande.id)">
-                        <mat-icon>not_interested</mat-icon> Refuser demande
-                    </button>
-                    <button mat-button class="btn btn-success" (click)="validerDemande(demande.id)">
-                        <mat-icon>done</mat-icon> Valider demande
-                    </button>
+                    <button mat-button class="btn btn-danger" (click)="openDialog(demande.id, expirerDemande)">
+                            <mat-icon>not_interested</mat-icon> Faire expirer
+                        </button>
+                        <button mat-button class="btn btn-success" (click)="openDialog(demande.id, validerDemande)">
+                            <mat-icon>done</mat-icon> Valider demande
+                        </button>
                 </mat-action-row>
                 
             </mat-expansion-panel>

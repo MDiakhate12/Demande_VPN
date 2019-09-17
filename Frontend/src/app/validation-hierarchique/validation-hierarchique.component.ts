@@ -6,6 +6,8 @@ import { Application } from '../models/application.model';
 import { Demande } from '../models/demande.model';
 import { GenericService } from '../services/generic.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: '#validation-hierarchique',
@@ -23,7 +25,7 @@ export class ValidationHierarchiqueComponent implements OnInit {
   demandes: Demande[] = new Array<Demande>();
   username: string;
 
-  constructor(private demandeService: DemandeService, private genericService: GenericService, private router: ActivatedRoute) { }
+  constructor(private demandeService: DemandeService, private genericService: GenericService, private router: ActivatedRoute, public dialog: MatDialog, public snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.genericService.init(this);
@@ -54,22 +56,53 @@ export class ValidationHierarchiqueComponent implements OnInit {
   }
 
   validerDemande(id: number) {
-    if (confirm("Confirmez vous la validation ?")) {
-      this.demandeService.acceptDemandeWithId(id).subscribe(
-        data => {
-          this.initDemandeEnAttenteHierarchique();
-          console.log(data);
-        },
-        error => {
-          console.error(error);
-        }
-      )
-    }
+    this.demandeService.acceptDemandeWithId(id).subscribe(
+      data => {
+        this.initDemandeEnAttenteHierarchique();
+        console.log(data);
+      },
+      error => {
+        console.error(error);
+      }
+    )
   }
 
 
   refuserDemande(id: number) {
+    this.demandeService.rejectDemandeWithId(id).subscribe(
+      data => {
+        this.initDemandeEnAttenteHierarchique();
+        console.log(data);
+      },
+      error => {
+        console.error(error);
+      }
+    );
+  }
 
+  openDialog(id: number, action) {
+    let dialogRef = this.dialog.open(DialogComponent);
+    dialogRef.afterClosed().subscribe(
+      choice => {
+
+        if (action.name === this.validerDemande.name) {
+          if (choice) {
+            this.validerDemande(id);
+            this.openSnackbar("Demande validée avec succés! Envoi immédiat à l'admin sécurité", 'OK', 3000);
+          }
+        } else if (action.name === this.refuserDemande.name) {
+          if (choice) {
+            this.refuserDemande(id);
+            this.openSnackbar("Demande refusée! Le demandeur sera notifié du refus", 'OK', 3000);
+          }
+        }
+
+      }
+    )
+  }
+
+  openSnackbar(message, dismiss, time) {
+    this.snackbar.open(message, dismiss, { duration: time });
   }
 
 }

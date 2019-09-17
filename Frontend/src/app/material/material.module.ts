@@ -21,6 +21,8 @@ import {
   MatProgressBarModule,
   MatSlideToggleModule,
   MatCheckboxModule,
+  MatDialogModule,
+  MatSnackBarModule,
 } from '@angular/material';
 
 const MaterialComponents = [
@@ -45,7 +47,9 @@ const MaterialComponents = [
   MatProgressBarModule,
   MatSlideToggleModule,
   MatProgressSpinnerModule,
-  MatCheckboxModule
+  MatCheckboxModule,
+  MatDialogModule,
+  MatSnackBarModule,
 ];
 
 @NgModule({

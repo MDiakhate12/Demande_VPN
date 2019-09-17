@@ -6,6 +6,8 @@ import { Application } from '../models/application.model';
 import { Demande } from '../models/demande.model';
 import { GenericService } from '../services/generic.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog, MatSnackBar } from '@angular/material';
+import { DialogComponent } from '../dialog/dialog.component';
 
 @Component({
   selector: 'app-validation-admin',
@@ -23,7 +25,7 @@ export class ValidationAdminComponent implements OnInit {
   demandes: Demande[] = new Array<Demande>();
   username: string;
 
-  constructor(private demandeService: DemandeService, private genericService: GenericService, private router: ActivatedRoute) { }
+  constructor(private demandeService: DemandeService, private genericService: GenericService, private router: ActivatedRoute, public dialog: MatDialog, public snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.genericService.init(this);
@@ -54,7 +56,6 @@ export class ValidationAdminComponent implements OnInit {
   }
 
   validerDemande(id: number) {
-    if (confirm("Confirmez vous la validation ?")) {
       this.demandeService.configureDemandeWithId(id).subscribe(
         data => {
           this.initDemandeEnAttenteAdmin();
@@ -64,12 +65,43 @@ export class ValidationAdminComponent implements OnInit {
           console.error(error);
         }
       )
-    }
   }
 
 
-  refuserDemande(id: number) {
-
+  expirerDemande(id: number) {
+    this.demandeService.expirationDemandeWithId(id).subscribe(
+      data => {
+        this.initDemandeEnAttenteAdmin();
+        console.log(data);
+      },
+      error => {
+        console.error(error);
+      }
+    );
   }
 
+  openDialog(id: number, action) {
+    let dialogRef = this.dialog.open(DialogComponent);
+    dialogRef.afterClosed().subscribe(
+      choice => {
+
+        if (action.name === this.validerDemande.name) {
+          if (choice) {
+            this.validerDemande(id);
+            this.openSnackbar("Demande validée avec succés! Envoi immédiat des identifiants de connexion au VPN", 'OK', 3000);
+          }
+        } else if (action.name === this.expirerDemande.name) {
+          if (choice) {
+            this.expirerDemande(id);
+            this.openSnackbar("Cette demande est maintenant expiré! Le VPN sera fermé", 'OK', 3000);
+          }
+        }
+
+      }
+    )
+  }
+
+  openSnackbar(message, dismiss, time) {
+    this.snackbar.open(message, dismiss, { duration: time });
+  }
 }

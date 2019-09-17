@@ -18,6 +18,7 @@ import { DemandeValidationDetailComponent } from './demande-validation-detail/de
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ValidationSecuriteComponent } from './validation-securite/validation-securite.component';
 import { ValidationAdminComponent } from './validation-admin/validation-admin.component';
+import { DialogComponent } from './dialog/dialog.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { ValidationAdminComponent } from './validation-admin/validation-admin.co
     DemandeValidationDetailComponent,
     DashboardComponent,
     ValidationSecuriteComponent,
-    ValidationAdminComponent
+    ValidationAdminComponent,
+    DialogComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { ValidationAdminComponent } from './validation-admin/validation-admin.co
     FormsModule,
     HttpClientModule
   ],
+  entryComponents: [DialogComponent],
   providers: [DemandeService],
   bootstrap: [AppComponent]
 })
